@@ -1,0 +1,26 @@
+VIDEOS DEL CARRUSEL "CONOCE NUESTRO PROCESO"
+=============================================
+
+Coloca aquí los cinco videos con EXACTAMENTE estos nombres:
+
+  proceso-1.mp4  -> Diseño del panel
+  proceso-2.mp4  -> Construcción del prototipo
+  proceso-3.mp4  -> Pruebas de laboratorio
+  proceso-4.mp4  -> Monitoreo IoT
+  proceso-5.mp4  -> Resultados
+
+Formato recomendado:
+  - MP4 (codec H.264 + AAC), que funciona en todos los navegadores.
+  - Vertical u orientación 4:5, aprox. 800 x 1000 px. Se recortan para llenar el marco.
+  - Videos cortos (5 a 15 segundos), porque se reproducen en bucle y sin sonido.
+  - Peso ligero (menos de 3 MB cada uno) para que la página cargue rápido.
+
+Imagen de portada (opcional pero recomendada):
+  proceso-1.jpg, proceso-2.jpg ... proceso-5.jpg
+  Es el primer cuadro que se ve mientras el video carga.
+
+Cómo funciona:
+  - El video de la tarjeta central se reproduce solo, en bucle y sin sonido.
+  - Los videos de las tarjetas laterales quedan en pausa para ahorrar datos.
+  - El botón redondo del centro sirve para pausar y reanudar.
+  - Si falta un archivo, la tarjeta muestra un aviso con el nombre que hace falta.

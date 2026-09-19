@@ -1,0 +1,19 @@
+CARPETA DE IMÁGENES — BioFog Panel
+===================================
+
+Coloca aquí tus archivos PNG con EXACTAMENTE estos nombres (todo en minúsculas):
+
+  logo.png        -> Logo Universidad de La Salle (fondo transparente, ancho recomendado 400 px o más).
+  estudiante.png  -> Foto de la estudiante (vertical, recomendado 900 x 1200 px). Va dentro del marco redondeado central.
+  panel.png       -> Foto del panel BioFog (vertical, recomendado 900 x 1200 px). Va dentro del marco redondeado derecho.
+  fondo.png       -> Imagen de fondo de TODA la web (horizontal, recomendado 1920 x 1080 px o más).
+                     Queda fija a pantalla completa detrás de todas las secciones al hacer scroll.
+  sensores.png    -> Imagen central de la sección "Sensores y tecnología del panel"
+                     (recomendado PNG con fondo transparente, aprox. 1000 x 800 px).
+                     Los puntos azules de conexión se ajustan en index.html con --x / --y (en %).
+
+Mientras no coloques las imágenes, la web muestra un degradado y un texto indicando qué archivo falta.
+
+Si quieres usar otro nombre o formato (por ejemplo .jpg), cambia la ruta en:
+  - index.html        (logo, estudiante y panel)
+  - css/styles.css    (fondo -> busca "assets/fondo.png" en body::before)

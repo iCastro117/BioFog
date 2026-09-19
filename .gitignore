@@ -1,0 +1,7 @@
+# Archivos del sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Configuración local de herramientas (se regenera sola)
+.claude/

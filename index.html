@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BioFog Panel | Universidad de La Salle</title>
+  <meta name="description" content="Monitoreo inteligente para captación de agua de niebla con panel biodegradable, sensores IoT y análisis predictivo.">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ============ ÍCONOS SVG (sprite reutilizable) ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 21c0-8 4-14 15-15-1 11-7 15-15 15z"/>
+      <path d="M5 21c3-6 7-9 11-11"/>
+    </symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 15a4 4 0 0 1-.5-8A6 6 0 0 1 18 8.5 3.5 3.5 0 0 1 17.5 15H7z"/>
+      <path d="M6 19h9M9 22h7"/>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M13 6l6 6-6 6"/>
+    </symbol>
+    <symbol id="i-drop-fill" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2.5s6.5 7 6.5 11.7a6.5 6.5 0 0 1-13 0C5.5 9.5 12 2.5 12 2.5z"/>
+    </symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <path d="M5 20v-7M12 20V5M19 20v-10"/>
+    </symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+      <path d="M2.5 8.8a15 15 0 0 1 19 0M5.6 12.2a10 10 0 0 1 12.8 0M8.7 15.6a5 5 0 0 1 6.6 0"/>
+      <circle cx="12" cy="19.2" r="1.2" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 9.5 12 4.5l10 5-10 5-10-5z"/>
+      <path d="M6.5 12v4.2c3 2.6 8 2.6 11 0V12"/>
+      <path d="M22 9.5V15"/>
+    </symbol>
+    <symbol id="i-thermo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 14.2V5a2 2 0 1 1 4 0v9.2a3.6 3.6 0 1 1-4 0z"/>
+      <path d="M12 9.5v7"/>
+    </symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="6" y="6" width="12" height="12" rx="2"/>
+      <rect x="10" y="10" width="4" height="4"/>
+      <path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>
+    </symbol>
+    <symbol id="i-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 17l5-5 4 4 5-6 4 3"/>
+      <path d="M3 21h18"/>
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M12 5v14M5 12h14"/>
+    </symbol>
+    <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.8 6.2a3.6 3.6 0 0 0 4.8 4.8l-8.3 8.3a2 2 0 1 1-2.8-2.8z"/>
+      <path d="M6.6 3.4 3.6 6.4l3.4 3.4 2-2z"/>
+      <path d="M9.2 10.2 14 15"/>
+    </symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 3h6"/>
+      <path d="M10 3v6.2L5.4 17A2 2 0 0 0 7.1 20h9.8a2 2 0 0 0 1.7-3L14 9.2V3"/>
+      <path d="M7.6 15h8.8"/>
+    </symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3.2"/>
+      <path d="M12 2.6v2.2M12 19.2v2.2M4.3 4.3l1.5 1.5M18.2 18.2l1.5 1.5M2.6 12h2.2M19.2 12h2.2M4.3 19.7l1.5-1.5M18.2 5.8l1.5-1.5"/>
+    </symbol>
+    <symbol id="i-db" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="12" cy="6" rx="7" ry="3"/>
+      <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/>
+      <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>
+    </symbol>
+    <symbol id="i-chev-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 4.5 7.5 12 15 19.5"/>
+    </symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 4.5 16.5 12 9 19.5"/>
+    </symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M8.5 5.4v13.2a.6.6 0 0 0 .92.5l10.2-6.6a.6.6 0 0 0 0-1l-10.2-6.6a.6.6 0 0 0-.92.5z"/>
+    </symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="7.5" y="5" width="3.4" height="14" rx="1.1"/>
+      <rect x="13.1" y="5" width="3.4" height="14" rx="1.1"/>
+    </symbol>
+  </svg>
+
+  <!-- ============ HEADER / NAVBAR ============ -->
+  <header class="header">
+    <div class="container">
+      <nav class="navbar" aria-label="Navegación principal">
+        <a href="#inicio" class="brand" aria-label="Universidad de La Salle - Inicio">
+          <img src="assets/logo.png" alt="Universidad de La Salle">
+          <span class="brand__text">UNIVERSIDAD DE<br>LA SALLE</span>
+        </a>
+
+        <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+          <li><a href="#sobre-nosotros" class="nav-link">Sobre Nosotros</a></li>
+          <li><a href="#proceso" class="nav-link">Proceso</a></li>
+          <li><a href="#qa" class="nav-link">QA</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio">
+      <div class="container hero__grid">
+
+        <!-- Columna izquierda: texto -->
+        <div class="hero__content">
+          <span class="badge glass">
+            <svg><use href="#i-leaf"/></svg>
+            Tecnología con propósito
+          </span>
+
+          <h1 class="hero__title">
+            <span class="hero__line hero__line--biofog">
+              <span class="hero__shine">BIOFOG</span>
+            </span>
+            <span class="hero__line hero__line--panel">
+              <span class="hero__cloud glass" aria-hidden="true">
+                <svg><use href="#i-cloud"/></svg>
+              </span>
+              <span class="hero__shine">PANEL</span>
+            </span>
+          </h1>
+
+          <p class="hero__text">
+            Panel biodegradable a base de bambú y pseudotallo de plátano, con sensores IoT y
+            análisis predictivo para monitorear la captación de agua proveniente de la niebla
+            de forma sostenible.
+          </p>
+
+          <a href="#sobre-nosotros" class="btn btn--primary">
+            Explorar más
+            <span class="btn__icon"><svg><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+
+        <!-- Columna central: estudiante -->
+        <div class="hero__visual hero__visual--student">
+          <div class="frame frame--student" data-placeholder="Coloca estudiante.png en la carpeta assets/">
+            <img src="assets/estudiante.png" alt="Estudiante investigadora de la Universidad de La Salle">
+          </div>
+
+          <div class="card glass card--prediction">
+            <span class="card__icon card__icon--flat"><svg><use href="#i-bars"/></svg></span>
+            <span class="card__title">Predicción IA</span>
+            <svg class="card__spark" viewBox="0 0 80 32" aria-hidden="true">
+              <defs>
+                <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2bb5a8" stop-opacity=".35"/>
+                  <stop offset="100%" stop-color="#2bb5a8" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M2 27 L14 21 L26 23 L38 13 L50 16 L62 7 L78 10 L78 32 L2 32 Z" fill="url(#sparkFill)"/>
+              <polyline points="2,27 14,21 26,23 38,13 50,16 62,7 78,10" fill="none" stroke="#2bb5a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="card__sub">Mayor<br>eficiencia hídrica</span>
+          </div>
+
+          <div class="card glass card--research card--row">
+            <span class="card__icon"><svg><use href="#i-cap"/></svg></span>
+            <span>
+              <span class="card__title card__title--lg">Investigación</span>
+              <span class="card__sub">para un futuro más limpio</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Columna derecha: panel -->
+        <div class="hero__visual hero__visual--panel">
+          <div class="frame frame--panel" data-placeholder="Coloca panel.png en la carpeta assets/">
+            <img src="assets/panel.png" alt="Prototipo BioFog Panel captando agua de niebla">
+          </div>
+
+          <div class="card glass card--arduino card--row">
+            <span class="card__icon"><svg><use href="#i-wifi"/></svg></span>
+            <span>
+              <span class="card__title">Arduino IoT</span>
+              <span class="card__sub">Monitoreo en tiempo real</span>
+            </span>
+          </div>
+
+          <div class="card glass card--humidity">
+            <span class="card__head">
+              <span class="card__icon card__icon--sm"><svg><use href="#i-drop-fill"/></svg></span>
+              <span class="card__title">Humedad</span>
+            </span>
+            <span class="card__value">92%</span>
+            <span class="card__sub">Condiciones ideales</span>
+          </div>
+
+          <div class="card glass card--collection">
+            <span class="card__head">
+              <span class="card__icon card__icon--sm"><svg><use href="#i-drop-fill"/></svg></span>
+              <span class="card__title">Recolección</span>
+            </span>
+            <span class="card__value">6700 mL</span>
+            <span class="card__sub">Agua de niebla</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ ESTADÍSTICAS ============ -->
+    <section class="stats" aria-label="Cifras del proyecto">
+      <div class="container stats__grid">
+        <div class="stat">
+          <span class="stat__value" data-count="50" data-prefix="+">+50</span>
+          <span class="stat__label">Pruebas</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value" data-count="1000" data-prefix="+">+1000</span>
+          <span class="stat__label">Datos Analizados</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value" data-count="4" data-suffix=" variables">4 variables</span>
+          <span class="stat__label">Monitoreadas</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value">BioFog +1</span>
+          <span class="stat__label">Prototipo funcional</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SOBRE NOSOTROS: sensores y tecnología del panel ============ -->
+    <section class="section tech" id="sobre-nosotros">
+      <div class="container tech__container">
+        <div class="tech__head reveal">
+          <h2 class="tech__title">Sensores y tecnología <span>del panel</span></h2>
+          <p>
+            Integra sensores y monitoreo IoT para una captura de agua de niebla
+            más eficiente y sostenible.
+          </p>
+        </div>
+
+        <!--
+          Diagrama: las líneas se dibujan con JS desde cada punto (.tech__dot) hasta su tarjeta
+          (mismo data-anchor). Los puntos se ubican sobre la imagen con --x / --y en porcentaje:
+          ajusta esos valores para que coincidan con tu foto (sensores.png).
+        -->
+        <div class="tech__diagram reveal">
+          <svg class="tech__lines" aria-hidden="true"></svg>
+
+          <div class="tech__col tech__col--left">
+            <article class="tech-card glass" data-anchor="humedad">
+              <span class="tech-card__icon"><svg><use href="#i-drop-fill"/></svg></span>
+              <div>
+                <h3>Sensor de humedad</h3>
+                <p>Mide la humedad del ambiente para optimizar la captura.</p>
+              </div>
+            </article>
+            <article class="tech-card glass" data-anchor="temperatura">
+              <span class="tech-card__icon"><svg><use href="#i-thermo"/></svg></span>
+              <div>
+                <h3>Sensor de temperatura</h3>
+                <p>Registra la temperatura para un análisis más preciso.</p>
+              </div>
+            </article>
+            <article class="tech-card glass" data-anchor="panel">
+              <span class="tech-card__icon"><svg><use href="#i-leaf"/></svg></span>
+              <div>
+                <h3>Panel biodegradable</h3>
+                <p>Malla de origen biológico diseñada para capturar la niebla de forma eficiente y sostenible.</p>
+              </div>
+            </article>
+          </div>
+
+          <figure class="tech__image" data-placeholder="Coloca sensores.png en la carpeta assets/">
+            <img src="assets/sensores.png" alt="Panel BioFog con sus sensores y sistema de recolección de agua">
+            <span class="tech__dot" data-anchor="humedad" style="--x: 18%; --y: 16%"></span>
+            <span class="tech__dot" data-anchor="temperatura" style="--x: 10%; --y: 38%"></span>
+            <span class="tech__dot" data-anchor="panel" style="--x: 18%; --y: 60%"></span>
+            <span class="tech__dot" data-anchor="iot" style="--x: 76%; --y: 12%"></span>
+            <span class="tech__dot" data-anchor="prediccion" style="--x: 72%; --y: 46%"></span>
+            <span class="tech__dot" data-anchor="recoleccion" style="--x: 60%; --y: 72%"></span>
+          </figure>
+
+          <div class="tech__col tech__col--right">
+            <article class="tech-card glass" data-anchor="iot">
+              <span class="tech-card__icon"><svg><use href="#i-wifi"/></svg></span>
+              <div>
+                <h3>Monitoreo IoT</h3>
+                <p>Transmite datos en tiempo real para un seguimiento continuo y remoto.</p>
+              </div>
+            </article>
+            <article class="tech-card glass" data-anchor="prediccion">
+              <span class="tech-card__icon"><svg><use href="#i-bars"/></svg></span>
+              <div>
+                <h3>Análisis predictivo</h3>
+                <p>Procesa los datos para anticipar condiciones y mejorar el rendimiento.</p>
+              </div>
+            </article>
+            <article class="tech-card glass" data-anchor="recoleccion">
+              <span class="tech-card__icon"><svg><use href="#i-drop-fill"/></svg></span>
+              <div>
+                <h3>Recolección de agua</h3>
+                <p>Sistema de captación y almacenamiento de agua de niebla lista para su aprovechamiento.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROCESO: carrusel de videos ============ -->
+    <section class="section section--alt proc" id="proceso">
+      <div class="container">
+        <div class="proc__head reveal">
+          <h2 class="proc__title">Conoce nuestro <span>proceso</span></h2>
+          <p>
+            BioFog integra el diseño del panel biodegradable, la construcción del prototipo,
+            pruebas experimentales, monitoreo IoT, análisis de datos y resultados,
+            para transformar la niebla en agua útil.
+          </p>
+        </div>
+      </div>
+
+      <!--
+        Carrusel: los videos van en assets/videos/ con los nombres proceso-1.mp4 ... proceso-5.mp4
+        (opcional: una imagen de portada con el mismo nombre en .jpg para el atributo poster).
+      -->
+      <div class="proc__carousel" aria-roledescription="carrusel" aria-label="Etapas del proceso BioFog">
+        <button class="proc__nav proc__nav--prev glass" type="button" aria-label="Etapa anterior">
+          <svg><use href="#i-chev-left"/></svg>
+        </button>
+
+        <div class="proc__track">
+          <article class="proc__slide">
+            <div class="proc__card glass">
+              <div class="proc__media" data-placeholder="proceso-1.mp4">
+                <video src="assets/videos/proceso-1.mp4" poster="assets/videos/proceso-1.jpg"
+                       muted loop playsinline preload="metadata"></video>
+                <span class="proc__badge"><svg><use href="#i-leaf"/></svg></span>
+                <button class="proc__play" type="button" aria-label="Reproducir video">
+                  <svg class="proc__play-on"><use href="#i-play"/></svg>
+                  <svg class="proc__play-off"><use href="#i-pause"/></svg>
+                </button>
+              </div>
+              <div class="proc__body">
+                <h3>Diseño del panel</h3>
+                <p>Desarrollo de materiales biodegradables y diseño estructural para la captación de niebla.</p>
+                <div class="proc__stat glass">
+                  <span class="proc__stat-icon"><svg><use href="#i-leaf"/></svg></span>
+                  <span class="proc__stat-text">
+                    <span class="proc__stat-top"><strong>4</strong> materiales</span>
+                    <span class="proc__stat-sub">biodegradables evaluados</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="proc__slide">
+            <div class="proc__card glass">
+              <div class="proc__media" data-placeholder="proceso-2.mp4">
+                <video src="assets/videos/proceso-2.mp4" poster="assets/videos/proceso-2.jpg"
+                       muted loop playsinline preload="metadata"></video>
+                <span class="proc__badge"><svg><use href="#i-tools"/></svg></span>
+                <button class="proc__play" type="button" aria-label="Reproducir video">
+                  <svg class="proc__play-on"><use href="#i-play"/></svg>
+                  <svg class="proc__play-off"><use href="#i-pause"/></svg>
+                </button>
+              </div>
+              <div class="proc__body">
+                <h3>Construcción<br>del prototipo</h3>
+                <p>Ensamblaje del panel e integración de sensores IoT para el monitoreo en tiempo real.</p>
+                <div class="proc__stat glass">
+                  <span class="proc__stat-icon"><svg><use href="#i-gear"/></svg></span>
+                  <span class="proc__stat-text">
+                    <span class="proc__stat-top"><strong>1</strong> prototipo</span>
+                    <span class="proc__stat-sub">funcional desarrollado</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="proc__slide">
+            <div class="proc__card glass">
+              <div class="proc__media" data-placeholder="proceso-3.mp4">
+                <video src="assets/videos/proceso-3.mp4" poster="assets/videos/proceso-3.jpg"
+                       muted loop playsinline preload="metadata"></video>
+                <span class="proc__badge"><svg><use href="#i-flask"/></svg></span>
+                <button class="proc__play" type="button" aria-label="Reproducir video">
+                  <svg class="proc__play-on"><use href="#i-play"/></svg>
+                  <svg class="proc__play-off"><use href="#i-pause"/></svg>
+                </button>
+              </div>
+              <div class="proc__body">
+                <h3>Pruebas de laboratorio</h3>
+                <p>Evaluación del rendimiento del panel en condiciones controladas de niebla para validar su eficiencia.</p>
+                <div class="proc__stat glass">
+                  <span class="proc__stat-icon"><svg><use href="#i-bars"/></svg></span>
+                  <span class="proc__stat-text">
+                    <span class="proc__stat-top"><strong>50+</strong> pruebas</span>
+                    <span class="proc__stat-sub">en condiciones controladas</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="proc__slide">
+            <div class="proc__card glass">
+              <div class="proc__media" data-placeholder="proceso-4.mp4">
+                <video src="assets/videos/proceso-4.mp4" poster="assets/videos/proceso-4.jpg"
+                       muted loop playsinline preload="metadata"></video>
+                <span class="proc__badge"><svg><use href="#i-wifi"/></svg></span>
+                <button class="proc__play" type="button" aria-label="Reproducir video">
+                  <svg class="proc__play-on"><use href="#i-play"/></svg>
+                  <svg class="proc__play-off"><use href="#i-pause"/></svg>
+                </button>
+              </div>
+              <div class="proc__body">
+                <h3>Monitoreo IoT</h3>
+                <p>Captura de datos en tiempo real de humedad, temperatura y volumen de agua recolectada mediante sensores.</p>
+                <div class="proc__stat glass">
+                  <span class="proc__stat-icon"><svg><use href="#i-db"/></svg></span>
+                  <span class="proc__stat-text">
+                    <span class="proc__stat-top"><strong>1000+</strong> datos</span>
+                    <span class="proc__stat-sub">registrados en campo</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="proc__slide">
+            <div class="proc__card glass">
+              <div class="proc__media" data-placeholder="proceso-5.mp4">
+                <video src="assets/videos/proceso-5.mp4" poster="assets/videos/proceso-5.jpg"
+                       muted loop playsinline preload="metadata"></video>
+                <span class="proc__badge"><svg><use href="#i-bars"/></svg></span>
+                <button class="proc__play" type="button" aria-label="Reproducir video">
+                  <svg class="proc__play-on"><use href="#i-play"/></svg>
+                  <svg class="proc__play-off"><use href="#i-pause"/></svg>
+                </button>
+              </div>
+              <div class="proc__body">
+                <h3>Resultados</h3>
+                <p>Análisis de datos y validación del impacto del sistema en la captación de agua de niebla.</p>
+                <div class="proc__stat glass">
+                  <span class="proc__stat-icon"><svg><use href="#i-drop-fill"/></svg></span>
+                  <span class="proc__stat-text">
+                    <span class="proc__stat-top"><strong>6700</strong> mL</span>
+                    <span class="proc__stat-sub">de agua recolectada</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <button class="proc__nav proc__nav--next glass" type="button" aria-label="Etapa siguiente">
+          <svg><use href="#i-chev-right"/></svg>
+        </button>
+
+        <div class="proc__dots" role="tablist" aria-label="Ir a una etapa"></div>
+      </div>
+    </section>
+
+    <!-- ============ QA / PREGUNTAS FRECUENTES (contenido editable) ============ -->
+    <section class="section" id="qa">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow">QA</span>
+          <h2>Preguntas frecuentes</h2>
+          <p>Resolvemos las dudas más comunes sobre el prototipo y su funcionamiento.</p>
+        </div>
+
+        <div class="faq reveal">
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">
+              ¿Qué variables monitorea el panel?
+              <svg><use href="#i-plus"/></svg>
+            </button>
+            <div class="faq__a"><div><p>Humedad relativa, temperatura, velocidad del viento y volumen de agua recolectada.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">
+              ¿Cuánta agua puede captar?
+              <svg><use href="#i-plus"/></svg>
+            </button>
+            <div class="faq__a"><div><p>En condiciones ideales de niebla el prototipo ha recolectado hasta 6700 mL en una jornada de pruebas.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">
+              ¿Por qué es biodegradable?
+              <svg><use href="#i-plus"/></svg>
+            </button>
+            <div class="faq__a"><div><p>La malla y la estructura usan fibras naturales y bambú, que se degradan sin dejar residuos plásticos.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">
+              ¿Cómo se realiza la predicción?
+              <svg><use href="#i-plus"/></svg>
+            </button>
+            <div class="faq__a"><div><p>Un modelo entrenado con más de 1000 registros estima la eficiencia hídrica según las condiciones ambientales.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span><strong>BioFog Panel</strong> · Universidad de La Salle</span>
+      <span>© <span id="year"></span> Tecnología con propósito</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
