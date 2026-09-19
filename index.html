@@ -9,7 +9,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -58,6 +58,9 @@
     </symbol>
     <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <path d="M12 5v14M5 12h14"/>
+    </symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M5 12h14"/>
     </symbol>
     <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M14.8 6.2a3.6 3.6 0 0 0 4.8 4.8l-8.3 8.3a2 2 0 1 1-2.8-2.8z"/>
@@ -478,43 +481,137 @@
       </div>
     </section>
 
-    <!-- ============ QA / PREGUNTAS FRECUENTES (contenido editable) ============ -->
-    <section class="section" id="qa">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="eyebrow">QA</span>
-          <h2>Preguntas frecuentes</h2>
-          <p>Resolvemos las dudas más comunes sobre el prototipo y su funcionamiento.</p>
+    <!-- ============ QA / PREGUNTAS FRECUENTES ============ -->
+    <section class="section qa" id="qa">
+
+      <!-- Cinta animada continua (el segundo grupo lo clona el JS) -->
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker__track">
+          <div class="ticker__group">
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+            <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="container qa__inner">
+        <span class="qa__side" aria-hidden="true">Ciencia<br>Innovación<br>Impacto real</span>
+
+        <div class="qa__intro reveal">
+          <h2 class="qa__title">
+            ¿Tienes alguna duda sobre BioFog Smart?
+            <span>Estamos aquí para ayudarte.</span>
+          </h2>
+          <span class="qa__rule"></span>
         </div>
 
+        <div class="qa__head reveal">
+          <h3>Preguntas Frecuentes</h3>
+          <p>
+            Encuentra respuestas a las preguntas más frecuentes sobre el panel biodegradable,
+            el monitoreo IoT, las pruebas de laboratorio y los resultados de BioFog Smart.
+          </p>
+        </div>
+
+        <!-- Dos columnas independientes: cada una crece sola al abrir una pregunta.
+             En móvil se unen en una sola lista, en el orden de --order. -->
         <div class="faq reveal">
-          <div class="faq__item">
-            <button class="faq__q" type="button" aria-expanded="false">
-              ¿Qué variables monitorea el panel?
-              <svg><use href="#i-plus"/></svg>
-            </button>
-            <div class="faq__a"><div><p>Humedad relativa, temperatura, velocidad del viento y volumen de agua recolectada.</p></div></div>
+          <div class="faq__col">
+            <div class="faq__item glass is-open" style="--order: 1">
+              <button class="faq__q" type="button" aria-expanded="true">
+                <span class="faq__icon faq__icon--green"><svg><use href="#i-leaf"/></svg></span>
+                <span class="faq__text">¿Qué es BioFog Smart?</span>
+                <span class="faq__toggle">
+                  <svg class="faq__sign-plus"><use href="#i-plus"/></svg>
+                  <svg class="faq__sign-minus"><use href="#i-minus"/></svg>
+                </span>
+              </button>
+              <div class="faq__a"><div><p>
+                BioFog Smart es una propuesta de investigación que integra un panel biodegradable
+                captador de niebla, sensores IoT y análisis predictivo para monitorear y optimizar
+                la captación de agua de niebla de forma sostenible.
+              </p></div></div>
+            </div>
+
+            <div class="faq__item glass" style="--order: 3">
+              <button class="faq__q" type="button" aria-expanded="false">
+                <span class="faq__icon"><svg><use href="#i-db"/></svg></span>
+                <span class="faq__text">¿Para qué sirve el análisis de datos en BioFog?</span>
+                <span class="faq__toggle">
+                  <svg class="faq__sign-plus"><use href="#i-plus"/></svg>
+                  <svg class="faq__sign-minus"><use href="#i-minus"/></svg>
+                </span>
+              </button>
+              <div class="faq__a"><div><p>
+                Permite anticipar las mejores condiciones de captación y estimar la eficiencia
+                hídrica del panel. Con más de 1000 registros, el modelo predictivo ayuda a decidir
+                dónde y cuándo conviene instalar el sistema.
+              </p></div></div>
+            </div>
           </div>
-          <div class="faq__item">
-            <button class="faq__q" type="button" aria-expanded="false">
-              ¿Cuánta agua puede captar?
-              <svg><use href="#i-plus"/></svg>
-            </button>
-            <div class="faq__a"><div><p>En condiciones ideales de niebla el prototipo ha recolectado hasta 6700 mL en una jornada de pruebas.</p></div></div>
-          </div>
-          <div class="faq__item">
-            <button class="faq__q" type="button" aria-expanded="false">
-              ¿Por qué es biodegradable?
-              <svg><use href="#i-plus"/></svg>
-            </button>
-            <div class="faq__a"><div><p>La malla y la estructura usan fibras naturales y bambú, que se degradan sin dejar residuos plásticos.</p></div></div>
-          </div>
-          <div class="faq__item">
-            <button class="faq__q" type="button" aria-expanded="false">
-              ¿Cómo se realiza la predicción?
-              <svg><use href="#i-plus"/></svg>
-            </button>
-            <div class="faq__a"><div><p>Un modelo entrenado con más de 1000 registros estima la eficiencia hídrica según las condiciones ambientales.</p></div></div>
+
+          <div class="faq__col">
+            <div class="faq__item glass" style="--order: 2">
+              <button class="faq__q" type="button" aria-expanded="false">
+                <span class="faq__icon"><svg><use href="#i-gear"/></svg></span>
+                <span class="faq__text">¿Cómo funciona el panel biodegradable?</span>
+                <span class="faq__toggle">
+                  <svg class="faq__sign-plus"><use href="#i-plus"/></svg>
+                  <svg class="faq__sign-minus"><use href="#i-minus"/></svg>
+                </span>
+              </button>
+              <div class="faq__a"><div><p>
+                La niebla atraviesa una malla de bambú y pseudotallo de plátano, donde las gotas
+                se condensan sobre las fibras. El agua escurre por la canaleta hasta el depósito,
+                sin usar energía ni materiales plásticos.
+              </p></div></div>
+            </div>
+
+            <div class="faq__item glass" style="--order: 4">
+              <button class="faq__q" type="button" aria-expanded="false">
+                <span class="faq__icon"><svg><use href="#i-bars"/></svg></span>
+                <span class="faq__text">¿Qué variables monitorea el sistema?</span>
+                <span class="faq__toggle">
+                  <svg class="faq__sign-plus"><use href="#i-plus"/></svg>
+                  <svg class="faq__sign-minus"><use href="#i-minus"/></svg>
+                </span>
+              </button>
+              <div class="faq__a"><div><p>
+                Cuatro variables en tiempo real: humedad relativa, temperatura, velocidad del
+                viento y volumen de agua recolectada. Los sensores conectados a Arduino envían
+                los datos de forma continua y remota.
+              </p></div></div>
+            </div>
+
+            <div class="faq__item glass" style="--order: 5">
+              <button class="faq__q" type="button" aria-expanded="false">
+                <span class="faq__icon"><svg><use href="#i-flask"/></svg></span>
+                <span class="faq__text">¿Qué resultados se obtuvieron en las pruebas?</span>
+                <span class="faq__toggle">
+                  <svg class="faq__sign-plus"><use href="#i-plus"/></svg>
+                  <svg class="faq__sign-minus"><use href="#i-minus"/></svg>
+                </span>
+              </button>
+              <div class="faq__a"><div><p>
+                Más de 50 pruebas en condiciones controladas, con una recolección máxima de
+                6700 mL de agua de niebla en una jornada y un prototipo funcional validado
+                en campo.
+              </p></div></div>
+            </div>
           </div>
         </div>
       </div>

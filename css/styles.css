@@ -520,19 +520,6 @@ svg { display: block; }
 .section { padding: 96px 0; }
 .section--alt { background: rgba(255, 255, 255, 0.28); }
 
-.section__head {
-  max-width: 640px;
-  margin-bottom: 48px;
-}
-.eyebrow {
-  display: inline-block;
-  margin-bottom: 12px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--teal);
-}
 .section h2 {
   font-family: var(--font-title);
   font-weight: 800;
@@ -540,12 +527,6 @@ svg { display: block; }
   line-height: 1.15;
   color: var(--navy);
 }
-.section__head p {
-  margin-top: 16px;
-  font-size: 16px;
-  color: var(--muted);
-}
-
 /* ==========================================================================
    SOBRE NOSOTROS — Sensores y tecnología del panel (infográfico)
    ========================================================================== */
@@ -991,52 +972,200 @@ svg { display: block; }
   background: var(--navy-deep);
 }
 
-/* QA / Acordeón */
-.faq {
-  max-width: 800px;
-  padding: 8px 28px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.72);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 10px 30px rgba(11, 59, 98, 0.08);
+/* ==========================================================================
+   QA — Preguntas frecuentes
+   ========================================================================== */
+.qa {
+  position: relative;
+  overflow: hidden;
+  padding: 0 0 96px;
 }
-.faq__item { border-bottom: 1px solid rgba(11, 59, 98, 0.12); }
-.faq__item:last-child { border-bottom: 0; }
+.qa__inner {
+  position: relative;
+  padding-top: 64px;
+}
+
+/* --- Cinta animada continua --- */
+.ticker {
+  overflow: hidden;
+  padding: 13px 0;
+  background: linear-gradient(90deg,
+    rgba(89, 170, 172, 0.48) 0%,
+    rgba(116, 186, 160, 0.48) 50%,
+    rgba(89, 170, 172, 0.48) 100%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+.ticker__track {
+  display: flex;
+  width: max-content;
+}
+.ticker__track.is-ready { animation: ticker 48s linear infinite; }
+@keyframes ticker {
+  to { transform: translateX(-50%); }
+}
+.ticker__group {
+  display: flex;
+  align-items: center;
+}
+.ticker__item {
+  padding: 0 24px;
+  font-size: 23px;
+  font-weight: 200;
+  letter-spacing: 0.01em;
+  color: #fff;
+  white-space: nowrap;
+}
+.ticker__sep svg {
+  width: 19px;
+  height: 19px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* --- Texto lateral --- */
+.qa__side {
+  position: absolute;
+  top: 78px;
+  left: -46px;
+  display: none;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 2;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(1, 46, 86, 0.55);
+}
+
+/* --- Encabezado --- */
+.qa__intro {
+  max-width: 980px;
+  margin: 0 auto 52px;
+  text-align: center;
+}
+.qa .qa__title {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: clamp(26px, 3.1vw, 37px);
+  line-height: 1.22;
+  color: var(--navy-deep);
+}
+.qa .qa__title span {
+  display: block;
+  color: var(--aqua);
+}
+.qa__rule {
+  display: block;
+  width: 340px;
+  max-width: 70%;
+  height: 3px;
+  margin: 22px auto 0;
+  border-radius: 999px;
+  background: var(--aqua);
+}
+
+.qa__head {
+  max-width: 720px;
+  margin-bottom: 32px;
+}
+.qa__head h3 {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: clamp(26px, 3.2vw, 36px);
+  line-height: 1.1;
+  color: var(--navy-deep);
+}
+.qa__head p {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--navy-deep);
+}
+
+/* --- Acordeón en dos columnas independientes --- */
+.faq {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 26px;
+}
+.faq__col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.faq__item {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 28px rgba(11, 59, 98, 0.12);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.faq__item:hover { background: rgba(255, 255, 255, 0.56); }
+.faq__item.is-open {
+  background: rgba(255, 255, 255, 0.52);
+  box-shadow: 0 16px 36px rgba(11, 59, 98, 0.16);
+}
+
 .faq__q {
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  padding: 20px 0;
+  gap: 14px;
+  padding: 14px 16px;
   border: 0;
   background: none;
   text-align: left;
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--navy);
 }
-.faq__q svg {
-  width: 20px;
-  height: 20px;
+.faq__icon {
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
-  color: var(--teal);
-  transition: transform 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(214, 233, 245, 0.9);
+  color: #1e6fb0;
 }
-.faq__item.is-open .faq__q svg { transform: rotate(45deg); }
+.faq__icon svg { width: 20px; height: 20px; }
+.faq__icon--green {
+  background: rgba(216, 240, 224, 0.95);
+  color: var(--green);
+}
+.faq__text {
+  flex: 1;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--navy-deep);
+}
+.faq__toggle {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  color: var(--navy-deep);
+}
+.faq__toggle svg { width: 20px; height: 20px; }
+.faq__sign-minus { display: none; color: var(--green); }
+.faq__item.is-open .faq__sign-plus { display: none; }
+.faq__item.is-open .faq__sign-minus { display: block; }
+
 .faq__a {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
+  transition: grid-template-rows 0.35s ease;
 }
 .faq__a > div { overflow: hidden; }
 .faq__item.is-open .faq__a { grid-template-rows: 1fr; }
 .faq__a p {
-  padding-bottom: 20px;
-  font-size: 15px;
-  color: var(--muted);
+  padding: 2px 18px 18px 70px;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--navy-deep);
 }
 
 /* Animación de aparición al hacer scroll */
@@ -1125,6 +1254,9 @@ svg { display: block; }
   .proc__nav--prev { left: 12px; }
   .proc__nav--next { right: 12px; }
 
+  .faq { gap: 20px; }
+  .faq__col { gap: 16px; }
+
   /* Infográfico: imagen arriba, tarjetas en dos columnas, sin líneas */
   .tech__diagram {
     grid-template-columns: 1fr 1fr;
@@ -1212,7 +1344,6 @@ svg { display: block; }
   .stat__label { font-size: 15px; }
 
   .section { padding: 64px 0; }
-  .section__head { margin-bottom: 32px; }
 
   /* Carrusel: una tarjeta a la vez, con las vecinas asomando */
   .proc__head { margin-bottom: 32px; }
@@ -1238,10 +1369,32 @@ svg { display: block; }
   .proc__nav--next { right: 6px; }
   .proc__dots { margin-top: 20px; }
 
+  /* Preguntas frecuentes en una sola columna */
+  .qa { padding: 0 0 64px; }
+  .qa__inner { padding-top: 44px; }
+  .qa__intro { margin-bottom: 36px; }
+  .ticker__item { padding: 0 18px; font-size: 19px; }
+  .ticker__sep svg { width: 16px; height: 16px; }
+  /* Las dos columnas se funden en una lista ordenada 1..5 */
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .faq__col { display: contents; }
+  .faq__item { order: var(--order, 0); }
+  .faq__text { font-size: 15px; }
+  .faq__a p { padding-left: 18px; }
+
   .tech__head { margin-bottom: 32px; }
   .tech__diagram { grid-template-columns: 1fr; gap: 18px; }
   .tech__image { grid-row: 1; margin-bottom: 10px; }
   .tech__col { grid-row: auto; gap: 18px; }
+}
+
+/* Texto lateral decorativo solo cuando hay espacio a la izquierda */
+@media (min-width: 1340px) {
+  .qa__side { display: block; }
 }
 
 /* Respeta la preferencia de menos movimiento */
@@ -1250,7 +1403,8 @@ svg { display: block; }
   .card { animation: none; }
   .tech__line-pulse,
   .tech__dot::after,
-  .hero__shine { animation: none; }
+  .hero__shine,
+  .ticker__track.is-ready { animation: none; }
   .proc__slide { transition-duration: 0.01ms; }
   .reveal {
     opacity: 1;

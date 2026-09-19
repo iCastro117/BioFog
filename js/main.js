@@ -141,6 +141,17 @@
     });
   });
 
+  /* ---------- Cinta animada continua ---------- */
+  const tickerTrack = $('.ticker__track');
+  const tickerGroup = $('.ticker__group', tickerTrack || document);
+  if (tickerTrack && tickerGroup) {
+    // Se duplica el grupo para que el bucle no muestre cortes
+    const clone = tickerGroup.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    tickerTrack.appendChild(clone);
+    tickerTrack.classList.add('is-ready');
+  }
+
   /* ---------- Carrusel de Proceso ---------- */
   const carousel = $('.proc__carousel');
 
