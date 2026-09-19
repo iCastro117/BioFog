@@ -110,26 +110,90 @@
     }
   }
 
-  /* ---------- Aparición suave de elementos al hacer scroll ---------- */
-  const reveals = $$('.reveal');
-  if (reveals.length) {
-    if ('IntersectionObserver' in window && !reduceMotion) {
-      const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
-          entries.forEach((entry, index) => {
-            if (!entry.isIntersecting) return;
-            entry.target.style.transitionDelay = `${(index % 4) * 80}ms`;
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          });
-        },
-        { threshold: 0.15 }
-      );
-      reveals.forEach((el) => revealObserver.observe(el));
-    } else {
-      reveals.forEach((el) => el.classList.add('is-visible'));
-    }
+  /* ---------- Animaciones de scroll ---------- */
+  // Retrasos: data-delay en el propio elemento, o escalonados con data-stagger en el contenedor
+  $$('[data-stagger]').forEach((group) => {
+    const step = Number(group.dataset.stagger) || 120;
+    Array.from(group.children)
+      .filter((child) => child.dataset.anim !== undefined)
+      .forEach((child, i) => child.style.setProperty('--anim-delay', `${i * step}ms`));
+  });
+  $$('[data-delay]').forEach((el) => {
+    el.style.setProperty('--anim-delay', `${Number(el.dataset.delay) || 0}ms`);
+  });
+
+  const scrollTargets = $$('[data-anim], [data-scroll]');
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    const markVisible = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    };
+    // Entrada: se anima en cuanto asoma. Sin margen inferior, para que lo que está
+    // al final de la página (pie) también se active al llegar abajo del todo.
+    const enterObserver = new IntersectionObserver(markVisible, { threshold: 0.12 });
+    // Los bloques grandes (líneas del infográfico, carrusel) esperan a verse más
+    const enterObserverBig = new IntersectionObserver(markVisible, { threshold: 0.3 });
+
+    // Salida: al subir, lo que queda muy por debajo se reinicia para repetir
+    // la animación al volver a bajar. El margen amplio evita parpadeos en el borde.
+    const exitObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
+          entry.target.classList.remove('is-visible');
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px 20% 0px' });
+
+    scrollTargets.forEach((el) => {
+      const big = el.dataset.scroll !== undefined;
+      (big ? enterObserverBig : enterObserver).observe(el);
+      exitObserver.observe(el);
+    });
+  } else {
+    scrollTargets.forEach((el) => el.classList.add('is-visible'));
   }
+
+  /* ---------- Parallax y barra de progreso de lectura ---------- */
+  const progressBar = $('.scroll-progress');
+  const parallaxEls = $$('[data-parallax]');
+  const wideScreen = window.matchMedia('(min-width: 993px)');
+  let fxQueued = false;
+
+  const moveParallax = (el, viewH) => {
+    if (!wideScreen.matches) {
+      el.style.translate = '';
+      el.dataset.py = '0';
+      return;
+    }
+    const rect = el.getBoundingClientRect();
+    const current = Number(el.dataset.py) || 0;
+    // Centro real sin el desplazamiento ya aplicado, para que no se acumule
+    const centerY = rect.top - current + rect.height / 2;
+    const offset = (centerY - viewH / 2) * Number(el.dataset.parallax);
+    el.dataset.py = String(offset);
+    el.style.translate = `0 ${offset.toFixed(1)}px`;
+  };
+
+  const updateScrollFx = () => {
+    fxQueued = false;
+    const viewH = window.innerHeight;
+    const maxScroll = document.documentElement.scrollHeight - viewH;
+    if (progressBar) {
+      const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
+      progressBar.style.transform = `scaleX(${progress})`;
+    }
+    if (!reduceMotion) parallaxEls.forEach((el) => moveParallax(el, viewH));
+  };
+
+  const queueScrollFx = () => {
+    if (fxQueued) return;
+    fxQueued = true;
+    requestAnimationFrame(updateScrollFx);
+  };
+  window.addEventListener('scroll', queueScrollFx, { passive: true });
+  window.addEventListener('resize', queueScrollFx);
+  updateScrollFx();
 
   /* ---------- Acordeón de preguntas (QA) ---------- */
   $$('.faq__item').forEach((item) => {
@@ -282,30 +346,45 @@
   const techDiagram = $('.tech__diagram');
   const techSvg = $('.tech__lines');
 
+  // Posición de un elemento dentro del diagrama SIN contar transformaciones,
+  // así las animaciones de entrada (desplazamiento, zoom) no desvían las líneas.
+  const offsetWithin = (el, ancestor) => {
+    let x = 0;
+    let y = 0;
+    let node = el;
+    while (node && node !== ancestor) {
+      x += node.offsetLeft;
+      y += node.offsetTop;
+      node = node.offsetParent;
+    }
+    return { x, y };
+  };
+
   const drawTechLines = () => {
     if (!techDiagram || !techSvg) return;
-    while (techSvg.firstChild) techSvg.removeChild(techSvg.firstChild);
+    while (techSvg.firstChild) techSvg.firstChild.remove();
     if (getComputedStyle(techSvg).display === 'none') return;
 
-    const box = techDiagram.getBoundingClientRect();
-    if (!box.width || !box.height) return;
-    techSvg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+    const width = techDiagram.offsetWidth;
+    const height = techDiagram.offsetHeight;
+    if (!width || !height) return;
+    techSvg.setAttribute('viewBox', `0 0 ${width} ${height}`);
     techSvg.setAttribute('preserveAspectRatio', 'none');
 
     $$('.tech-card', techDiagram).forEach((card, index) => {
       const dot = $(`.tech__dot[data-anchor="${card.dataset.anchor}"]`, techDiagram);
       if (!dot) return;
 
-      const c = card.getBoundingClientRect();
-      const d = dot.getBoundingClientRect();
+      const c = offsetWithin(card, techDiagram);
+      const d = offsetWithin(dot, techDiagram);
       const fromLeft = Boolean(card.closest('.tech__col--left'));
 
       // Punto de salida: centro del punto sobre la imagen
-      const x1 = d.left + d.width / 2 - box.left;
-      const y1 = d.top + d.height / 2 - box.top;
+      const x1 = d.x + dot.offsetWidth / 2;
+      const y1 = d.y + dot.offsetHeight / 2;
       // Punto de llegada: borde interior de la tarjeta, a media altura
-      const x2 = (fromLeft ? c.right : c.left) - box.left;
-      const y2 = c.top + c.height / 2 - box.top;
+      const x2 = fromLeft ? c.x + card.offsetWidth : c.x;
+      const y2 = c.y + card.offsetHeight / 2;
       const bend = (x2 - x1) * 0.5;
       const path = `M ${x1} ${y1} C ${x1 + bend} ${y1}, ${x2 - bend} ${y2}, ${x2} ${y2}`;
 
@@ -338,18 +417,18 @@
   }
 
   /* ---------- Respaldo cuando faltan imágenes en /assets ---------- */
-  $$('.frame img, .tech__image img').forEach((img) => {
+  $$('.frame img, .tech__image img, .team-card__photo img').forEach((img) => {
     const markEmpty = () => img.closest('[data-placeholder]').classList.add('is-empty');
     img.addEventListener('error', markEmpty);
     if (img.complete && img.naturalWidth === 0) markEmpty();
   });
 
-  const brandImg = $('.brand img');
-  if (brandImg) {
-    const useText = () => brandImg.closest('.brand').classList.add('is-fallback');
-    brandImg.addEventListener('error', useText);
-    if (brandImg.complete && brandImg.naturalWidth === 0) useText();
-  }
+  // Logo del menú y del footer: si falta el PNG se muestra el nombre en texto
+  $$('.brand img, .footer__logo img').forEach((img) => {
+    const useText = () => img.parentElement.classList.add('is-fallback');
+    img.addEventListener('error', useText);
+    if (img.complete && img.naturalWidth === 0) useText();
+  });
 
   /* ---------- Año del footer ---------- */
   const year = $('#year');

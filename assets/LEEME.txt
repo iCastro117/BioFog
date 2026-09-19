@@ -8,6 +8,12 @@ Coloca aquí tus archivos PNG con EXACTAMENTE estos nombres (todo en minúsculas
   panel.png       -> Foto del panel BioFog (vertical, recomendado 900 x 1200 px). Va dentro del marco redondeado derecho.
   fondo.png       -> Imagen de fondo de TODA la web (horizontal, recomendado 1920 x 1080 px o más).
                      Queda fija a pantalla completa detrás de todas las secciones al hacer scroll.
+  persona1.png    -> Foto de la primera persona del equipo (cuadrada, recomendado 600 x 600 px).
+  persona2.png    -> Foto de la segunda persona.
+  persona3.png    -> Foto de la tercera persona.
+  persona4.png    -> Foto de la cuarta persona.
+                     Se recortan en círculo, centradas en la parte superior (la cara).
+                     Los nombres se cambian en index.html, sección "Personal de laboratorio".
   sensores.png    -> Imagen central de la sección "Sensores y tecnología del panel"
                      (recomendado PNG con fondo transparente, aprox. 1000 x 800 px).
                      Los puntos azules de conexión se ajustan en index.html con --x / --y (en %).

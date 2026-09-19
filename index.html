@@ -12,6 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Activa las animaciones de scroll solo si hay JavaScript (sin JS la página se ve completa) -->
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
@@ -62,6 +64,21 @@
     <symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <path d="M5 12h14"/>
     </symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 3.2 2.8 11a.9.9 0 0 0 .6 1.6H5V20a1 1 0 0 0 1 1h4v-5.5h4V21h4a1 1 0 0 0 1-1v-7.4h1.6a.9.9 0 0 0 .6-1.6z"/>
+    </symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="5" width="18" height="14" rx="2.5"/>
+      <path d="m4 7 8 6 8-6"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2.5a7 7 0 0 0-7 7c0 5.2 7 12 7 12s7-6.8 7-12a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/>
+    </symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9.5 12 4l9 5.5"/>
+      <path d="M5 10.5v7.5M9.5 10.5v7.5M14.5 10.5v7.5M19 10.5v7.5"/>
+      <path d="M3 20.5h18"/>
+    </symbol>
     <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M14.8 6.2a3.6 3.6 0 0 0 4.8 4.8l-8.3 8.3a2 2 0 1 1-2.8-2.8z"/>
       <path d="M6.6 3.4 3.6 6.4l3.4 3.4 2-2z"/>
@@ -96,10 +113,13 @@
     </symbol>
   </svg>
 
+  <!-- Barra de progreso de lectura -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
   <!-- ============ HEADER / NAVBAR ============ -->
   <header class="header">
     <div class="container">
-      <nav class="navbar" aria-label="Navegación principal">
+      <nav class="navbar" aria-label="Navegación principal" data-anim="fade-down">
         <a href="#inicio" class="brand" aria-label="Universidad de La Salle - Inicio">
           <img src="assets/logo.png" alt="Universidad de La Salle">
           <span class="brand__text">UNIVERSIDAD DE<br>LA SALLE</span>
@@ -114,6 +134,7 @@
           <li><a href="#sobre-nosotros" class="nav-link">Sobre Nosotros</a></li>
           <li><a href="#proceso" class="nav-link">Proceso</a></li>
           <li><a href="#qa" class="nav-link">QA</a></li>
+          <li><a href="#equipo" class="nav-link">Estudiantes</a></li>
         </ul>
       </nav>
     </div>
@@ -126,16 +147,16 @@
 
         <!-- Columna izquierda: texto -->
         <div class="hero__content">
-          <span class="badge glass">
+          <span class="badge glass" data-anim="fade-down" data-delay="150">
             <svg><use href="#i-leaf"/></svg>
             Tecnología con propósito
           </span>
 
           <h1 class="hero__title">
-            <span class="hero__line hero__line--biofog">
+            <span class="hero__line hero__line--biofog" data-anim="fade-right" data-delay="250">
               <span class="hero__shine">BIOFOG</span>
             </span>
-            <span class="hero__line hero__line--panel">
+            <span class="hero__line hero__line--panel" data-anim="fade-right" data-delay="400">
               <span class="hero__cloud glass" aria-hidden="true">
                 <svg><use href="#i-cloud"/></svg>
               </span>
@@ -143,20 +164,20 @@
             </span>
           </h1>
 
-          <p class="hero__text">
+          <p class="hero__text" data-anim="fade-up" data-delay="550">
             Panel biodegradable a base de bambú y pseudotallo de plátano, con sensores IoT y
             análisis predictivo para monitorear la captación de agua proveniente de la niebla
             de forma sostenible.
           </p>
 
-          <a href="#sobre-nosotros" class="btn btn--primary">
+          <a href="#sobre-nosotros" class="btn btn--primary" data-anim="fade-up" data-delay="700">
             Explorar más
             <span class="btn__icon"><svg><use href="#i-arrow"/></svg></span>
           </a>
         </div>
 
         <!-- Columna central: estudiante -->
-        <div class="hero__visual hero__visual--student">
+        <div class="hero__visual hero__visual--student" data-anim="zoom-in" data-delay="300" data-parallax="0.1">
           <div class="frame frame--student" data-placeholder="Coloca estudiante.png en la carpeta assets/">
             <img src="assets/estudiante.png" alt="Estudiante investigadora de la Universidad de La Salle">
           </div>
@@ -187,9 +208,12 @@
         </div>
 
         <!-- Columna derecha: panel -->
-        <div class="hero__visual hero__visual--panel">
-          <div class="frame frame--panel" data-placeholder="Coloca panel.png en la carpeta assets/">
-            <img src="assets/panel.png" alt="Prototipo BioFog Panel captando agua de niebla">
+        <div class="hero__visual hero__visual--panel" data-anim="zoom-in" data-delay="500" data-parallax="-0.08">
+          <!-- La sombra va en el envoltorio para que también se difumine abajo -->
+          <div class="frame-fade">
+            <div class="frame frame--panel" data-placeholder="Coloca panel.png en la carpeta assets/">
+              <img src="assets/panel.png" alt="Prototipo BioFog Panel captando agua de niebla">
+            </div>
           </div>
 
           <div class="card glass card--arduino card--row">
@@ -224,20 +248,20 @@
 
     <!-- ============ ESTADÍSTICAS ============ -->
     <section class="stats" aria-label="Cifras del proyecto">
-      <div class="container stats__grid">
-        <div class="stat">
+      <div class="container stats__grid" data-stagger="130">
+        <div class="stat" data-anim="zoom-in">
           <span class="stat__value" data-count="50" data-prefix="+">+50</span>
           <span class="stat__label">Pruebas</span>
         </div>
-        <div class="stat">
+        <div class="stat" data-anim="zoom-in">
           <span class="stat__value" data-count="1000" data-prefix="+">+1000</span>
           <span class="stat__label">Datos Analizados</span>
         </div>
-        <div class="stat">
+        <div class="stat" data-anim="zoom-in">
           <span class="stat__value" data-count="4" data-suffix=" variables">4 variables</span>
           <span class="stat__label">Monitoreadas</span>
         </div>
-        <div class="stat">
+        <div class="stat" data-anim="zoom-in">
           <span class="stat__value">BioFog +1</span>
           <span class="stat__label">Prototipo funcional</span>
         </div>
@@ -247,9 +271,9 @@
     <!-- ============ SOBRE NOSOTROS: sensores y tecnología del panel ============ -->
     <section class="section tech" id="sobre-nosotros">
       <div class="container tech__container">
-        <div class="tech__head reveal">
-          <h2 class="tech__title">Sensores y tecnología <span>del panel</span></h2>
-          <p>
+        <div class="tech__head">
+          <h2 class="tech__title" data-anim="fade-up">Sensores y tecnología <span>del panel</span></h2>
+          <p data-anim="fade-up" data-delay="150">
             Integra sensores y monitoreo IoT para una captura de agua de niebla
             más eficiente y sostenible.
           </p>
@@ -260,25 +284,25 @@
           (mismo data-anchor). Los puntos se ubican sobre la imagen con --x / --y en porcentaje:
           ajusta esos valores para que coincidan con tu foto (sensores.png).
         -->
-        <div class="tech__diagram reveal">
+        <div class="tech__diagram" data-scroll>
           <svg class="tech__lines" aria-hidden="true"></svg>
 
-          <div class="tech__col tech__col--left">
-            <article class="tech-card glass" data-anchor="humedad">
+          <div class="tech__col tech__col--left" data-stagger="150">
+            <article class="tech-card glass" data-anchor="humedad" data-anim="fade-right">
               <span class="tech-card__icon"><svg><use href="#i-drop-fill"/></svg></span>
               <div>
                 <h3>Sensor de humedad</h3>
                 <p>Mide la humedad del ambiente para optimizar la captura.</p>
               </div>
             </article>
-            <article class="tech-card glass" data-anchor="temperatura">
+            <article class="tech-card glass" data-anchor="temperatura" data-anim="fade-right">
               <span class="tech-card__icon"><svg><use href="#i-thermo"/></svg></span>
               <div>
                 <h3>Sensor de temperatura</h3>
                 <p>Registra la temperatura para un análisis más preciso.</p>
               </div>
             </article>
-            <article class="tech-card glass" data-anchor="panel">
+            <article class="tech-card glass" data-anchor="panel" data-anim="fade-right">
               <span class="tech-card__icon"><svg><use href="#i-leaf"/></svg></span>
               <div>
                 <h3>Panel biodegradable</h3>
@@ -287,7 +311,7 @@
             </article>
           </div>
 
-          <figure class="tech__image" data-placeholder="Coloca sensores.png en la carpeta assets/">
+          <figure class="tech__image" data-placeholder="Coloca sensores.png en la carpeta assets/" data-anim="zoom-in" data-delay="100">
             <img src="assets/sensores.png" alt="Panel BioFog con sus sensores y sistema de recolección de agua">
             <span class="tech__dot" data-anchor="humedad" style="--x: 18%; --y: 16%"></span>
             <span class="tech__dot" data-anchor="temperatura" style="--x: 10%; --y: 38%"></span>
@@ -297,22 +321,22 @@
             <span class="tech__dot" data-anchor="recoleccion" style="--x: 60%; --y: 72%"></span>
           </figure>
 
-          <div class="tech__col tech__col--right">
-            <article class="tech-card glass" data-anchor="iot">
+          <div class="tech__col tech__col--right" data-stagger="150">
+            <article class="tech-card glass" data-anchor="iot" data-anim="fade-left">
               <span class="tech-card__icon"><svg><use href="#i-wifi"/></svg></span>
               <div>
                 <h3>Monitoreo IoT</h3>
                 <p>Transmite datos en tiempo real para un seguimiento continuo y remoto.</p>
               </div>
             </article>
-            <article class="tech-card glass" data-anchor="prediccion">
+            <article class="tech-card glass" data-anchor="prediccion" data-anim="fade-left">
               <span class="tech-card__icon"><svg><use href="#i-bars"/></svg></span>
               <div>
                 <h3>Análisis predictivo</h3>
                 <p>Procesa los datos para anticipar condiciones y mejorar el rendimiento.</p>
               </div>
             </article>
-            <article class="tech-card glass" data-anchor="recoleccion">
+            <article class="tech-card glass" data-anchor="recoleccion" data-anim="fade-left">
               <span class="tech-card__icon"><svg><use href="#i-drop-fill"/></svg></span>
               <div>
                 <h3>Recolección de agua</h3>
@@ -327,9 +351,9 @@
     <!-- ============ PROCESO: carrusel de videos ============ -->
     <section class="section section--alt proc" id="proceso">
       <div class="container">
-        <div class="proc__head reveal">
-          <h2 class="proc__title">Conoce nuestro <span>proceso</span></h2>
-          <p>
+        <div class="proc__head">
+          <h2 class="proc__title" data-anim="blur-in">Conoce nuestro <span>proceso</span></h2>
+          <p data-anim="fade-up" data-delay="200">
             BioFog integra el diseño del panel biodegradable, la construcción del prototipo,
             pruebas experimentales, monitoreo IoT, análisis de datos y resultados,
             para transformar la niebla en agua útil.
@@ -341,7 +365,7 @@
         Carrusel: los videos van en assets/videos/ con los nombres proceso-1.mp4 ... proceso-5.mp4
         (opcional: una imagen de portada con el mismo nombre en .jpg para el atributo poster).
       -->
-      <div class="proc__carousel" aria-roledescription="carrusel" aria-label="Etapas del proceso BioFog">
+      <div class="proc__carousel" aria-roledescription="carrusel" aria-label="Etapas del proceso BioFog" data-scroll>
         <button class="proc__nav proc__nav--prev glass" type="button" aria-label="Etapa anterior">
           <svg><use href="#i-chev-left"/></svg>
         </button>
@@ -485,7 +509,7 @@
     <section class="section qa" id="qa">
 
       <!-- Cinta animada continua (el segundo grupo lo clona el JS) -->
-      <div class="ticker" aria-hidden="true">
+      <div class="ticker" aria-hidden="true" data-anim="fade">
         <div class="ticker__track">
           <div class="ticker__group">
             <span class="ticker__item">BioFog</span><i class="ticker__sep"><svg><use href="#i-leaf"/></svg></i>
@@ -509,16 +533,19 @@
       </div>
 
       <div class="container qa__inner">
-        <div class="qa__intro reveal">
-          <h2 class="qa__title">Estamos aquí para ayudarte.</h2>
-          <span class="qa__rule"></span>
+        <div class="qa__intro">
+          <h2 class="qa__title" data-anim="zoom-in">
+            ¿Tienes alguna duda sobre BioFog Smart?
+            <span>Estamos aquí para ayudarte.</span>
+          </h2>
+          <span class="qa__rule" data-anim="grow-x" data-delay="300"></span>
         </div>
 
         <!-- Dos columnas independientes: cada una crece sola al abrir una pregunta.
              En móvil se unen en una sola lista, en el orden de --order. -->
-        <div class="faq reveal">
+        <div class="faq">
           <div class="faq__col">
-            <div class="faq__item glass is-open" style="--order: 1">
+            <div class="faq__item glass is-open" style="--order: 1" data-anim="flip-up" data-delay="0">
               <button class="faq__q" type="button" aria-expanded="true">
                 <span class="faq__icon faq__icon--green"><svg><use href="#i-leaf"/></svg></span>
                 <span class="faq__text">¿Qué es BioFog Smart?</span>
@@ -534,7 +561,7 @@
               </p></div></div>
             </div>
 
-            <div class="faq__item glass" style="--order: 3">
+            <div class="faq__item glass" style="--order: 3" data-anim="flip-up" data-delay="200">
               <button class="faq__q" type="button" aria-expanded="false">
                 <span class="faq__icon"><svg><use href="#i-db"/></svg></span>
                 <span class="faq__text">¿Para qué sirve el análisis de datos en BioFog?</span>
@@ -552,7 +579,7 @@
           </div>
 
           <div class="faq__col">
-            <div class="faq__item glass" style="--order: 2">
+            <div class="faq__item glass" style="--order: 2" data-anim="flip-up" data-delay="100">
               <button class="faq__q" type="button" aria-expanded="false">
                 <span class="faq__icon"><svg><use href="#i-gear"/></svg></span>
                 <span class="faq__text">¿Cómo funciona el panel biodegradable?</span>
@@ -562,13 +589,13 @@
                 </span>
               </button>
               <div class="faq__a"><div><p>
-                La niebla atraviesa una malla de bambú y pseudotallo de plátano, donde las gotas
+                La niebla atraviesa una malla de pseudotallo de plátano, donde las gotas
                 se condensan sobre las fibras. El agua escurre por la canaleta hasta el depósito,
                 sin usar energía ni materiales plásticos.
               </p></div></div>
             </div>
 
-            <div class="faq__item glass" style="--order: 4">
+            <div class="faq__item glass" style="--order: 4" data-anim="flip-up" data-delay="300">
               <button class="faq__q" type="button" aria-expanded="false">
                 <span class="faq__icon"><svg><use href="#i-bars"/></svg></span>
                 <span class="faq__text">¿Qué variables monitorea el sistema?</span>
@@ -584,7 +611,7 @@
               </p></div></div>
             </div>
 
-            <div class="faq__item glass" style="--order: 5">
+            <div class="faq__item glass" style="--order: 5" data-anim="flip-up" data-delay="400">
               <button class="faq__q" type="button" aria-expanded="false">
                 <span class="faq__icon"><svg><use href="#i-flask"/></svg></span>
                 <span class="faq__text">¿Qué resultados se obtuvieron en las pruebas?</span>
@@ -603,13 +630,136 @@
         </div>
       </div>
     </section>
+    <!-- ============ PERSONAL DE LABORATORIO ============ -->
+    <!-- Fotos en assets/persona1.png ... persona4.png. Cambia aquí los nombres. -->
+    <section class="section team" id="equipo">
+      <div class="container">
+        <div class="team__head">
+          <h2 class="team__title" data-anim="blur-in">Personal de <span>laboratorio</span></h2>
+          <p data-anim="fade-up" data-delay="200">El equipo de la Universidad de La Salle que hace posible BioFog Smart.</p>
+        </div>
+
+        <div class="team__grid" data-stagger="140">
+          <article class="team-card" data-anim="flip-up">
+            <span class="team-card__badge team-card__badge--green"><svg><use href="#i-leaf"/></svg></span>
+            <div class="team-card__photo" data-placeholder="persona1.png">
+              <img src="assets/persona1.png" alt="Catalina Castro Camacho">
+            </div>
+            <div class="team-card__info">
+              <h3>Catalina Castro Camacho</h3>
+              <span class="team-card__rule"></span>
+              <p>Universidad de La Salle</p>
+            </div>
+          </article>
+
+          <article class="team-card" data-anim="flip-up">
+            <span class="team-card__badge"><svg><use href="#i-gear"/></svg></span>
+            <div class="team-card__photo" data-placeholder="persona2.png">
+              <img src="assets/persona2.png" alt="Isabella Castro Camacho">
+            </div>
+            <div class="team-card__info">
+              <h3>Isabella Castro Camacho</h3>
+              <span class="team-card__rule"></span>
+              <p>Fundación Universitaria Konrad Lorenz</p>
+            </div>
+          </article>
+
+          <article class="team-card" data-anim="flip-up">
+            <span class="team-card__badge"><svg><use href="#i-flask"/></svg></span>
+            <div class="team-card__photo" data-placeholder="persona3.png">
+              <img src="assets/persona3.png" alt="Stiven Alexander Diaz Estasio">
+            </div>
+            <div class="team-card__info">
+              <h3>Stiven Alexander Diaz Estasio</h3>
+              <span class="team-card__rule"></span>
+              <p>Universidad de La Salle</p>
+            </div>
+          </article>
+
+          <article class="team-card" data-anim="flip-up">
+            <span class="team-card__badge"><svg><use href="#i-bars"/></svg></span>
+            <div class="team-card__photo" data-placeholder="persona4.png">
+              <img src="assets/persona4.png" alt="Samuel Esteban López Barbosa">
+            </div>
+            <div class="team-card__info">
+              <h3>Samuel Esteban López Barbosa</h3>
+              <span class="team-card__rule"></span>
+              <p>Universidad de La Salle</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- ============ FOOTER ============ -->
-  <footer class="footer">
-    <div class="container footer__inner">
-      <span><strong>BioFog Panel</strong> · Universidad de La Salle</span>
-      <span>© <span id="year"></span> Tecnología con propósito</span>
+  <footer class="footer" id="contacto">
+    <div class="container">
+      <div class="footer__grid" data-stagger="130">
+        <div class="footer__col footer__col--brand" data-anim="fade-up">
+          <a href="#inicio" class="footer__logo" aria-label="Universidad de La Salle - Inicio">
+            <img src="assets/logo.png" alt="Universidad de La Salle">
+            <span class="footer__logo-text">UNIVERSIDAD DE<br>LA SALLE</span>
+          </a>
+          <p class="footer__about">
+            BioFog Smart es una iniciativa de investigación enfocada en la captación sostenible
+            de agua de niebla mediante paneles biodegradables, sensores IoT y análisis de datos.
+          </p>
+        </div>
+
+        <nav class="footer__col" aria-label="Navegación del pie de página" data-anim="fade-up">
+          <h3 class="footer__title">
+            <span class="footer__title-icon"><svg><use href="#i-home"/></svg></span>
+            Navegación
+          </h3>
+          <ul class="footer__links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+            <li><a href="#proceso">Proceso</a></li>
+            <li><a href="#qa">Preguntas Frecuentes</a></li>
+            <li><a href="#equipo">Personal de laboratorio</a></li>
+          </ul>
+        </nav>
+
+        <div class="footer__col" data-anim="fade-up">
+          <h3 class="footer__title">
+            <span class="footer__title-icon"><svg><use href="#i-flask"/></svg></span>
+            Proyecto
+          </h3>
+          <ul class="footer__links">
+            <li><a href="#sobre-nosotros">Panel biodegradable</a></li>
+            <li><a href="#sobre-nosotros">Monitoreo IoT</a></li>
+            <li><a href="#proceso">Pruebas de laboratorio</a></li>
+            <li><a href="#proceso">Resultados</a></li>
+            <li><a href="#inicio">Impacto sostenible</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col" data-anim="fade-up">
+          <h3 class="footer__title">
+            <span class="footer__title-icon"><svg><use href="#i-mail"/></svg></span>
+            Contacto
+          </h3>
+          <ul class="footer__contact">
+            <li><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Laboratorio de La Salle</span></li>
+            <li><svg aria-hidden="true"><use href="#i-bank"/></svg><span>Universidad de La Salle</span></li>
+            <li>
+              <svg aria-hidden="true"><use href="#i-pin"/></svg>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+2+No.+10-70+La+Candelaria+Bogot%C3%A1"
+                 target="_blank" rel="noopener">Carrera 2 No. 10 - 70, La Candelaria, Bogotá, D.C.</a>
+            </li>
+            <li>
+              <svg aria-hidden="true"><use href="#i-mail"/></svg>
+              <a href="mailto:ccastro16@unisalle.edu.co">ccastro16@unisalle.edu.co</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom" data-anim="fade">
+        <span>© <span id="year"></span> BioFog Smart · Universidad de La Salle</span>
+        <span>Tecnología con propósito</span>
+      </div>
     </div>
   </footer>
 
