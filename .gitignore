@@ -5,9 +5,3 @@ desktop.ini
 
 # Configuración local de herramientas (se regenera sola)
 .claude/
-
-# Videos del carrusel.
-# GitHub rechaza archivos de más de 100 MB y los actuales pesan 97 MB y 558 MB.
-# Cuando estén comprimidos (menos de 5 MB cada uno), borra estas dos líneas
-# para que se suban con el resto del proyecto.
-assets/videos/*.mp4
