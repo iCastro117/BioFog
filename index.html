@@ -120,6 +120,12 @@
       <path d="M4 9.3h3.3L12 5.2v13.6l-4.7-4.1H4z" fill="currentColor"/>
       <path d="m16.2 9.6 4.6 4.8M20.8 9.6l-4.6 4.8"/>
     </symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.5 3.5H3.5v6M20.5 9.5v-6h-6M14.5 20.5h6v-6M3.5 14.5v6h6"/>
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M6 6 18 18M18 6 6 18"/>
+    </symbol>
   </svg>
 
   <!-- Barra de progreso de lectura -->
@@ -394,6 +400,9 @@
                   <svg class="proc__sound-on"><use href="#i-sound-on"/></svg>
                   <svg class="proc__sound-off"><use href="#i-sound-off"/></svg>
                 </button>
+                <button class="proc__expand" type="button" aria-label="Ver el video en grande">
+                  <svg><use href="#i-expand"/></svg>
+                </button>
               </div>
               <div class="proc__body">
                 <h3>Diseño del panel</h3>
@@ -422,6 +431,9 @@
                 <button class="proc__sound" type="button" aria-pressed="true" aria-label="Silenciar el video">
                   <svg class="proc__sound-on"><use href="#i-sound-on"/></svg>
                   <svg class="proc__sound-off"><use href="#i-sound-off"/></svg>
+                </button>
+                <button class="proc__expand" type="button" aria-label="Ver el video en grande">
+                  <svg><use href="#i-expand"/></svg>
                 </button>
               </div>
               <div class="proc__body">
@@ -452,6 +464,9 @@
                   <svg class="proc__sound-on"><use href="#i-sound-on"/></svg>
                   <svg class="proc__sound-off"><use href="#i-sound-off"/></svg>
                 </button>
+                <button class="proc__expand" type="button" aria-label="Ver el video en grande">
+                  <svg><use href="#i-expand"/></svg>
+                </button>
               </div>
               <div class="proc__body">
                 <h3>Pruebas de laboratorio</h3>
@@ -481,6 +496,9 @@
                   <svg class="proc__sound-on"><use href="#i-sound-on"/></svg>
                   <svg class="proc__sound-off"><use href="#i-sound-off"/></svg>
                 </button>
+                <button class="proc__expand" type="button" aria-label="Ver el video en grande">
+                  <svg><use href="#i-expand"/></svg>
+                </button>
               </div>
               <div class="proc__body">
                 <h3>Monitoreo IoT</h3>
@@ -509,6 +527,9 @@
                 <button class="proc__sound" type="button" aria-pressed="true" aria-label="Silenciar el video">
                   <svg class="proc__sound-on"><use href="#i-sound-on"/></svg>
                   <svg class="proc__sound-off"><use href="#i-sound-off"/></svg>
+                </button>
+                <button class="proc__expand" type="button" aria-label="Ver el video en grande">
+                  <svg><use href="#i-expand"/></svg>
                 </button>
               </div>
               <div class="proc__body">
@@ -791,6 +812,20 @@
       </div>
     </div>
   </footer>
+
+  <!-- ============ VENTANA DEL VIDEO AMPLIADO ============ -->
+  <div class="vmodal" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="vmodal-titulo" hidden>
+    <div class="vmodal__fondo" data-cerrar></div>
+    <div class="vmodal__caja">
+      <div class="vmodal__barra">
+        <h2 class="vmodal__titulo" id="vmodal-titulo">Video del proceso</h2>
+        <button class="vmodal__cerrar" type="button" aria-label="Cerrar el video" data-cerrar>
+          <svg><use href="#i-close"/></svg>
+        </button>
+      </div>
+      <video class="vmodal__video" controls playsinline preload="metadata"></video>
+    </div>
+  </div>
 
   <script src="js/main.js" defer></script>
 </body>

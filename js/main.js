@@ -402,6 +402,108 @@
       inView = true;
     }
 
+    /* El botón central estorba mientras el video corre: se desvanece a los 2
+       segundos y vuelve al pasar el cursor, al tocar el video o al pausarlo. */
+    const OCULTAR_TRAS = 2000;
+    slides.forEach((slide) => {
+      const media = $('.proc__media', slide);
+      const playBtn = $('.proc__play', slide);
+      const video = $('video', slide);
+      if (!media || !playBtn || !video) return;
+
+      let idleTimer = 0;
+      const ocultarLuego = (ms) => {
+        clearTimeout(idleTimer);
+        if (!video.paused) idleTimer = setTimeout(() => playBtn.classList.add('is-idle'), ms);
+      };
+      const mostrar = () => {
+        clearTimeout(idleTimer);
+        playBtn.classList.remove('is-idle');
+        ocultarLuego(OCULTAR_TRAS);
+      };
+
+      video.addEventListener('play', mostrar);
+      video.addEventListener('pause', () => {
+        clearTimeout(idleTimer);
+        playBtn.classList.remove('is-idle');
+      });
+      media.addEventListener('pointerenter', mostrar);
+      media.addEventListener('pointermove', mostrar);
+      media.addEventListener('pointerdown', mostrar);
+      media.addEventListener('pointerleave', () => {
+        playBtn.classList.remove('is-idle');
+        ocultarLuego(700);
+      });
+    });
+
+    /* Ver el video en grande, en una ventana sobre la misma página */
+    const modal = $('#video-modal');
+    if (modal) {
+      const modalVideo = $('.vmodal__video', modal);
+      const modalTitulo = $('.vmodal__titulo', modal);
+      const botonCerrar = $('.vmodal__cerrar', modal);
+      let focoPrevio = null;
+
+      const cerrarModal = () => {
+        if (modal.hidden) return;
+        modalVideo.pause();
+        modalVideo.removeAttribute('src');
+        modalVideo.load();
+        modal.hidden = true;
+        document.body.classList.remove('is-locked');
+        if (focoPrevio) focoPrevio.focus();
+        // Se retoma el carrusel donde estaba
+        const video = activeVideo();
+        if (video && inView && !userPaused) playVideo(video, activePlayBtn());
+      };
+
+      const abrirModal = (slide) => {
+        const video = $('video', slide);
+        const src = video && video.getAttribute('src');
+        if (!src || $('.proc__media', slide).classList.contains('is-empty')) return;
+
+        focoPrevio = document.activeElement;
+        const titulo = $('h3', slide);
+        modalTitulo.textContent = titulo ? titulo.textContent.replace(/\s+/g, ' ').trim() : 'Video del proceso';
+
+        const segundo = video.currentTime;
+        video.pause();
+        modalVideo.src = src;
+        modalVideo.muted = false;
+        modalVideo.addEventListener('loadedmetadata', () => {
+          try { modalVideo.currentTime = segundo; } catch (e) { /* sin salto */ }
+        }, { once: true });
+
+        modal.hidden = false;
+        document.body.classList.add('is-locked');
+        botonCerrar.focus();
+        const p = modalVideo.play();
+        if (p && p.catch) p.catch(() => { /* el visitante le dará a reproducir */ });
+      };
+
+      slides.forEach((slide) => {
+        const btn = $('.proc__expand', slide);
+        if (!btn) return;
+        btn.addEventListener('click', (event) => {
+          event.stopPropagation();
+          abrirModal(slide);
+        });
+      });
+
+      $$('[data-cerrar]', modal).forEach((el) => el.addEventListener('click', cerrarModal));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') cerrarModal();
+      });
+      // El foco no se escapa de la ventana mientras está abierta
+      modal.addEventListener('keydown', (event) => {
+        if (event.key !== 'Tab') return;
+        const focos = [botonCerrar, modalVideo];
+        const i = focos.indexOf(document.activeElement);
+        event.preventDefault();
+        focos[(i + (event.shiftKey ? focos.length - 1 : 1)) % focos.length].focus();
+      });
+    }
+
     // Deslizar con el dedo o arrastrar con el ratón
     const track = $('.proc__track', carousel);
     let startX = null;

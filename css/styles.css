@@ -946,6 +946,43 @@ svg { display: block; }
 .proc__sound.is-on .proc__sound-on { display: block; }
 .proc__sound.is-on .proc__sound-off { display: none; }
 
+/* Botón para ver el video en grande, junto al de sonido */
+.proc__expand {
+  position: absolute;
+  right: 62px;
+  bottom: 14px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--navy-deep);
+  box-shadow: 0 8px 20px rgba(11, 59, 98, 0.26);
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease, background 0.25s ease;
+}
+.proc__slide[data-pos="0"] .proc__expand {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.proc__expand:hover { background: #fff; }
+.proc__expand svg { width: 19px; height: 19px; }
+
+/* El botón central se desvanece mientras el video corre, para no tapar la imagen.
+   Vuelve al pasar el cursor, al tocar el video o al pausarlo. */
+.proc__slide[data-pos="0"] .proc__play.is-idle {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  pointer-events: none;
+}
+
 /* Texto */
 .proc__body {
   padding: 16px 18px 18px;
@@ -1802,4 +1839,104 @@ svg { display: block; }
   .tech__line-pulse,
   .tech__dot { transition: none; }
   .scroll-progress { display: none; }
+}
+
+/* ==========================================================================
+   VENTANA DEL VIDEO AMPLIADO
+   ========================================================================== */
+.vmodal {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.vmodal[hidden] { display: none; }
+
+.vmodal__fondo {
+  position: absolute;
+  inset: 0;
+  background: rgba(1, 26, 48, 0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: a-fade 0.3s ease;
+}
+
+/* La caja se ajusta al video: si es vertical queda angosta y alta,
+   si es horizontal queda ancha. Así no aparecen franjas negras. */
+.vmodal__caja {
+  position: relative;
+  z-index: 1;
+  max-width: min(1040px, 100%);
+  padding: 16px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 30px 80px rgba(1, 26, 48, 0.45);
+  animation: a-zoom-in 0.35s cubic-bezier(0.22, 0.8, 0.26, 1);
+}
+
+.vmodal__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 2px 4px 12px;
+}
+.vmodal__titulo {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--navy-deep);
+}
+.vmodal__cerrar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(213, 232, 243, 0.9);
+  color: var(--navy-deep);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.vmodal__cerrar:hover {
+  background: var(--navy-deep);
+  color: var(--white);
+  transform: rotate(90deg);
+}
+.vmodal__cerrar svg { width: 20px; height: 20px; }
+
+.vmodal__video {
+  display: block;
+  width: auto;
+  height: auto;
+  min-width: 260px;
+  max-width: min(1000px, 86vw);
+  max-height: 74vh;
+  margin: 0 auto;
+  border-radius: 14px;
+  background: #041e33;
+}
+
+/* Bloquea el scroll del fondo mientras la ventana está abierta */
+body.is-locked { overflow: hidden; }
+
+@media (max-width: 640px) {
+  .vmodal { padding: 14px; }
+  .vmodal__caja { padding: 12px; border-radius: 18px; }
+  .vmodal__titulo { font-size: 16px; }
+  .vmodal__video { min-width: 0; max-width: 100%; max-height: 66vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vmodal__fondo,
+  .vmodal__caja { animation: none; }
+  .vmodal__cerrar:hover { transform: none; }
 }
