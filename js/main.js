@@ -238,15 +238,54 @@
       return dot;
     });
 
+    /* Sonido.
+       Ningún navegador deja arrancar un video con sonido si el visitante aún no
+       ha tocado la página. Si lo bloquea, el video suena en silencio y el audio
+       se enciende solo en cuanto el visitante hace su primer clic. */
+    let soundOn = true;
+    let soundBlocked = false;
+    let userPaused = false;
+    let inView = false;
+
+    const soundButtons = $$('.proc__sound', carousel);
+    const updateSoundButtons = () => {
+      const on = soundOn && !soundBlocked;
+      soundButtons.forEach((btn) => {
+        btn.classList.toggle('is-on', on);
+        btn.setAttribute('aria-pressed', String(on));
+        btn.setAttribute('aria-label', on ? 'Silenciar el video' : 'Activar el sonido');
+      });
+    };
+
+    const activeVideo = () => $('video', slides[active]);
+    const activePlayBtn = () => $('.proc__play', slides[active]);
+
     const playVideo = (video, playBtn) => {
+      video.muted = !soundOn || soundBlocked;
       const promise = video.play();
-      if (promise && promise.catch) {
-        promise
-          .then(() => playBtn && playBtn.classList.add('is-playing'))
-          .catch(() => playBtn && playBtn.classList.remove('is-playing'));
-      } else if (playBtn) {
-        playBtn.classList.add('is-playing');
+      if (!promise || !promise.catch) {
+        if (playBtn) playBtn.classList.add('is-playing');
+        return;
       }
+      promise
+        .then(() => { if (playBtn) playBtn.classList.add('is-playing'); })
+        .catch((err) => {
+          // NotAllowedError es el bloqueo por falta de interacción. Cualquier otro
+          // fallo (archivo ausente o dañado) no tiene que ver con el sonido.
+          if (video.muted || !err || err.name !== 'NotAllowedError') {
+            if (playBtn) playBtn.classList.remove('is-playing');
+            return;
+          }
+          soundBlocked = true;
+          video.muted = true;
+          updateSoundButtons();
+          const retry = video.play();
+          if (retry && retry.catch) {
+            retry
+              .then(() => { if (playBtn) playBtn.classList.add('is-playing'); })
+              .catch(() => { if (playBtn) playBtn.classList.remove('is-playing'); });
+          }
+        });
     };
 
     const update = () => {
@@ -263,7 +302,8 @@
         const playBtn = $('.proc__play', slide);
         if (!video) return;
         if (offset === 0) {
-          playVideo(video, playBtn);
+          // Solo suena cuando el carrusel está a la vista
+          if (inView && !userPaused) playVideo(video, playBtn);
         } else {
           video.pause();
           if (playBtn) playBtn.classList.remove('is-playing');
@@ -302,13 +342,65 @@
       playBtn.addEventListener('click', (event) => {
         event.stopPropagation();
         if (video.paused) {
+          userPaused = false;
+          // El clic ya es una interacción válida: se puede desbloquear el audio
+          soundBlocked = false;
+          updateSoundButtons();
           playVideo(video, playBtn);
         } else {
+          userPaused = true;
           video.pause();
           playBtn.classList.remove('is-playing');
         }
       });
     });
+
+    // Botón de sonido de la tarjeta central
+    soundButtons.forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        soundOn = !(soundOn && !soundBlocked);
+        soundBlocked = false;
+        updateSoundButtons();
+        const video = activeVideo();
+        if (!video) return;
+        video.muted = !soundOn;
+        if (soundOn && video.paused) {
+          userPaused = false;
+          playVideo(video, activePlayBtn());
+        }
+      });
+    });
+
+    // Si el navegador silenció el video, el primer clic en la página lo desbloquea
+    document.addEventListener('pointerdown', () => {
+      if (!soundBlocked || !soundOn) return;
+      soundBlocked = false;
+      updateSoundButtons();
+      const video = activeVideo();
+      if (video && inView && !userPaused) playVideo(video, activePlayBtn());
+    });
+
+    // El video solo se reproduce mientras el carrusel está en pantalla,
+    // así el audio no sigue sonando cuando el visitante ya pasó de largo
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          inView = entry.isIntersecting;
+          const video = activeVideo();
+          if (!video) return;
+          if (inView) {
+            if (!userPaused) playVideo(video, activePlayBtn());
+          } else {
+            video.pause();
+            const btn = activePlayBtn();
+            if (btn) btn.classList.remove('is-playing');
+          }
+        });
+      }, { threshold: 0.25 }).observe(carousel);
+    } else {
+      inView = true;
+    }
 
     // Deslizar con el dedo o arrastrar con el ratón
     const track = $('.proc__track', carousel);
@@ -338,6 +430,7 @@
       }, 1500);
     });
 
+    updateSoundButtons();
     update();
   }
 

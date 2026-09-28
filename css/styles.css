@@ -914,6 +914,38 @@ svg { display: block; }
 .proc__play.is-playing .proc__play-on { display: none; }
 .proc__play.is-playing .proc__play-off { display: block; }
 
+/* Botón de sonido: también solo en la tarjeta central */
+.proc__sound {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--navy-deep);
+  box-shadow: 0 8px 20px rgba(11, 59, 98, 0.26);
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease, background 0.25s ease;
+}
+.proc__slide[data-pos="0"] .proc__sound {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.proc__sound:hover { background: #fff; }
+.proc__sound svg { width: 20px; height: 20px; }
+.proc__sound .proc__sound-on { display: none; }
+.proc__sound.is-on .proc__sound-on { display: block; }
+.proc__sound.is-on .proc__sound-off { display: none; }
+
 /* Texto */
 .proc__body {
   padding: 16px 18px 18px;
